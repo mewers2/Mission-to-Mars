@@ -5,8 +5,7 @@ Practice2.ipynb
 # Adding .ipynb_checkpoints
 .ipynb_checkpoints
 
-# Adding templates
-templates/
+# Adding cache
 __pycache__/
 
 # Adding copy of old file versions
