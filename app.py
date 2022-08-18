@@ -9,10 +9,13 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
 mongo = PyMongo(app)
 
+
+
 # Define the flask root route
 @app.route("/")
 def index():
     mars = mongo.db.mars.find_one()
+    #img_dict = mongo.db.mars.find({'hemisphere_image_urls.0.img_url'})
     return render_template("index.html", mars=mars)
 
 # Set up the scraping route

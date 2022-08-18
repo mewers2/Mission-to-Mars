@@ -8,3 +8,7 @@ Practice2.ipynb
 # Adding templates
 templates/
 __pycache__/
+
+# Adding copy of old file versions
+scraping - Copy.py
+index - copy.html

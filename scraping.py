@@ -21,8 +21,9 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
-    }
+        "last_modified": dt.datetime.now(),
+        "hemisphere_image_urls": hemispheres_images(browser)
+        }
 
     # Stop webdriver and return data
     browser.quit()
@@ -36,7 +37,7 @@ def mars_news(browser):
     browser.visit(url)
 
     # Optional delay for loading the page
-    browser.is_element_present_by_css('div.list_text', wait_time=1)
+    browser.is_element_present_by_css('div.list_text', wait_time=3)
 
 
     # Set up the HTML parser: Convert the browser html to a soup object and then quit the browser
@@ -121,6 +122,42 @@ def mars_facts():
 
     # Convert DataFrame back into HTML format using the `.to_html()` function, add bootstrap
     return df.to_html(classes="table table-striped")
+
+### Hemisphere Images
+
+def hemispheres_images(browser):
+
+    url = 'https://marshemispheres.com/'
+    browser.visit(url)
+
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    links = browser.find_by_css('a.product-item img')
+
+    # Loop through the links, click the link, find teh sample anchor, and return the href
+    for x in range(len(links)):
+        # create an empty dictionary to hold the image url's and titles       
+        hemispheres = {}
+        
+        # Navigate the browser to the URL
+        browser.find_by_css('a.product-item img')[x].click()
+
+        # Scrape the full resolution image and the image title
+        sample_elem = browser.links.find_by_text('Sample').first
+        hemispheres['img_url'] = sample_elem['href']
+
+        hemispheres['title'] = browser.find_by_css('h2.title').text
+    
+        # Save the image link and title
+        hemisphere_image_urls.append(hemispheres)
+
+        # Navigate back to get the next image
+        browser.back()
+
+
+    return hemisphere_image_urls
 
 
 
